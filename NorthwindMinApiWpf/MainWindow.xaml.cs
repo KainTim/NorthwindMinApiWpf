@@ -22,15 +22,11 @@ public partial class MainWindow : Window
   private RestClient _client = new("http://localhost:5216/");
   public MainWindow() => InitializeComponent();
 
-  private void cboProducts_SelectionChanged(object sender, SelectionChangedEventArgs e)
-  {
-
-  }
-
   private void AddOrderDetail_Clicked(object sender, RoutedEventArgs e)
   {
-
+    AddOrderDetail();
   }
+
 
   private void GrdOrders_SelectionChanged(object sender, SelectionChangedEventArgs e)
   {
@@ -39,8 +35,9 @@ public partial class MainWindow : Window
 
   private void BtnDeleteOrder_Clicked(object sender, RoutedEventArgs e)
   {
-
+    DeleteOrder();
   }
+
 
   private void BtnNewOrder_Clicked(object sender, RoutedEventArgs e)
   {
@@ -86,6 +83,28 @@ public partial class MainWindow : Window
     };
     var reqest = new RestRequest("orders").AddJsonBody(orderDtoAdd);
     var response = _client.Post(reqest);
+    DisplayOrders();
+  }
+  private void AddOrderDetail()
+  {
+    if (grdOrders.SelectedItem is not OrderDto) return;
+    if (cboProducts.SelectedItem == null) return;
+    var orderDetailDtoAdd = new OrderDetailDtoAdd()
+    {
+      OrderId = ((OrderDto)grdOrders.SelectedItem).Id,
+      ProductId = ((ProductDto)cboProducts.SelectedItem).ProductId,
+      Quantity = int.Parse(txtQuantity.Text),
+    };
+    var reqest = new RestRequest("orderdetails").AddJsonBody(orderDetailDtoAdd);
+    var response = _client.Post(reqest);
+    DisplayOrders();
+    DisplayOrderDetails();
+  }
+  private void DeleteOrder()
+  {
+    if (grdOrders.SelectedItem is not OrderDto) return;
+    var reqest = new RestRequest($"orders/{((OrderDto)grdOrders.SelectedItem).Id}");
+    var response = _client.Delete(reqest);
     DisplayOrders();
   }
 

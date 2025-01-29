@@ -40,8 +40,8 @@ public class DbService(NorthwindContext db)
   {
 
     return db.OrderDetails
-      .Include(x=>x.Product)
-      .ThenInclude(x=>x.Category)
+      .Include(x => x.Product)
+      .ThenInclude(x => x.Category)
       .Where((detail) => detail.OrderId == orderId)
       .Select((detail) => new OrderDetailDto()
       {
@@ -55,11 +55,37 @@ public class DbService(NorthwindContext db)
     ).ToList();
   }
 
-  internal void addOrder(OrderDtoAdd order) {
-    db.Orders.Add(new Order()
+  internal void addOrder(OrderDtoAdd order)
+  {
+    db.Orders.Add(new Order
     {
       EmployeeId = order.EmployeeId,
       CustomerId = order.CustomerId,
     });
+    db.SaveChanges();
+  }
+
+  internal void addOrderDetail(OrderDetailDtoAdd orderDetailDtoAdd)
+  {
+    db.OrderDetails.Add(new OrderDetail
+    {
+      OrderId = orderDetailDtoAdd.OrderId,
+      ProductId = orderDetailDtoAdd.ProductId,
+      Quantity = orderDetailDtoAdd.Quantity,
+      UnitPrice = db.Products.Single(x => x.ProductId == orderDetailDtoAdd.ProductId).UnitPrice ?? 0,
+    });
+    try
+    {
+      db.SaveChanges();
+    }
+    catch
+    { }
+  }
+
+  internal void deleteOrder(int orderId)
+  {
+    db.Orders.Remove(db.Orders.Single(x => x.OrderId == orderId));
+    db.OrderDetails.RemoveRange(db.OrderDetails.Where(x => x.OrderId == orderId));
+    db.SaveChanges();
   }
 }

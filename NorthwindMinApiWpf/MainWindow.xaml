@@ -32,8 +32,7 @@ Title="MainWindow" Height="250" Width="820">
       </Grid.ColumnDefinitions>
       <Label Content="Product" Grid.Row="0" Grid.Column="0"/>
       <Label Content="Amount" Grid.Row="1" Grid.Column="0"/>
-      <ComboBox Name="cboProducts" DisplayMemberPath="Name" Grid.Row="0" Grid.Column="1"
-                SelectionChanged="cboProducts_SelectionChanged"/>
+      <ComboBox Name="cboProducts" DisplayMemberPath="Name" Grid.Row="0" Grid.Column="1"/>
       <TextBox Name="txtQuantity" Text="66" Grid.Row="1" Grid.Column="1"/>
       <Button Grid.Row="2" Grid.Column="1" Content="Add Item" Click="AddOrderDetail_Clicked"/>
     </Grid>
