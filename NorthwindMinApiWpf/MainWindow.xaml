@@ -1,0 +1,42 @@
+﻿<Window x:Class="NorthwindMinApiWpf.MainWindow"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:local="clr-namespace:NorthwindMinApiWpf"
+mc:Ignorable="d"
+Loaded="Window_Loaded"
+Title="MainWindow" Height="250" Width="820">
+  <DockPanel>
+    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+      <Label Content="Employee"/>
+      <ComboBox Name="cboEmployees" DisplayMemberPath="Name"
+          SelectionChanged="CboEmployeesSelectionChanged" Width="150"/>
+      <Label Content="Customer"/>
+      <ComboBox Name="cboCustomers" DisplayMemberPath="Name"
+        SelectionChanged="CboCustomersSelectionChanged" Width="150"/>
+      <Button Content="Add New Order" Click="BtnNewOrder_Clicked" Margin="5,0,0,0"/>
+      <Button Content="Delete Selected Order" Click="BtnDeleteOrder_Clicked" Margin="5,0,0,0"/>
+    </StackPanel>
+    <DataGrid DockPanel.Dock="Left" Name="grdOrders" Width="265" Margin="3"
+      SelectionChanged="GrdOrders_SelectionChanged"/>
+    <Grid DockPanel.Dock="Right" Width="190" Margin="3">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="25"/>
+        <RowDefinition Height="25"/>
+        <RowDefinition Height="25"/>
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="55"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+      <Label Content="Product" Grid.Row="0" Grid.Column="0"/>
+      <Label Content="Amount" Grid.Row="1" Grid.Column="0"/>
+      <ComboBox Name="cboProducts" DisplayMemberPath="Name" Grid.Row="0" Grid.Column="1"
+                SelectionChanged="cboProducts_SelectionChanged"/>
+      <TextBox Name="txtQuantity" Text="66" Grid.Row="1" Grid.Column="1"/>
+      <Button Grid.Row="2" Grid.Column="1" Content="Add Item" Click="AddOrderDetail_Clicked"/>
+    </Grid>
+    <DataGrid Name="grdOrderDetails" Margin="3"/>
+  </DockPanel>
+</Window>
